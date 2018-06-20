@@ -773,6 +773,12 @@ def _substring(translator, expr):
         )
 
 
+def _string_concat(translator, expr):
+    return 'CONCAT({})'.format(
+        ', '.join(map(translator.translate, expr.op().arg))
+    )
+
+
 def _string_find(translator, expr):
     op = expr.op()
     arg, substr, start, _ = op.args
@@ -1051,6 +1057,7 @@ _operation_registry = {
     ops.FindInSet: _find_in_set,
     ops.LPad: fixed_arity('lpad', 3),
     ops.RPad: fixed_arity('rpad', 3),
+    ops.StringConcat: _string_concat,
     ops.StringJoin: _string_join,
     ops.StringSQLLike: _string_like,
     ops.RegexSearch: fixed_arity('regexp_like', 2),

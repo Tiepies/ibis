@@ -213,12 +213,6 @@ def _regex_replace(translator, expr):
     return result
 
 
-def _string_concat(translator, expr):
-    return 'CONCAT({})'.format(
-        ', '.join(map(translator.translate, expr.op().arg))
-    )
-
-
 def _string_join(translator, expr):
     sep, args = expr.op().args
     return 'ARRAY_TO_STRING([{}], {})'.format(
@@ -375,7 +369,6 @@ _operation_registry.update({
 
     ops.StringReplace: fixed_arity('REPLACE', 3),
     ops.StringSplit: fixed_arity('SPLIT', 2),
-    ops.StringConcat: _string_concat,
     ops.StringJoin: _string_join,
     ops.StringAscii: _string_ascii,
     ops.StringFind: _string_find,
